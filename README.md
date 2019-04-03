@@ -6,6 +6,7 @@ str(antisemitism_07)
 liedetection<- as.factor(liedetection)
 #label factors
 liedetection<- factor(liedetection,c(0,1),labels = c("Without","With"))
+
 # 1. Compute summary statistics by groups - count, mean, sd:
 library(dplyr)
 group_by(antisemitism_07, suffering) %>%
@@ -14,7 +15,7 @@ group_by(antisemitism_07, suffering) %>%
     mean = mean(prejudice, na.rm = TRUE),
     sd = sd(prejudice, na.rm = TRUE)
   )
- 
+
 # 2  图
 # 2.1 ggboxplot
 library("ggpubr")
@@ -22,7 +23,6 @@ ggboxplot(antisemitism_07, x = "suffering", y = "prejudice",
           color = "group", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
           order = c("ctrl", "trt1", "trt2")
           ylab = "Weight", xlab = "Treatment")
-
 
 # 2.2 library("ggpubr")
 ggline(antisemitism_07, x = "suffering", y = "prejudice", 
