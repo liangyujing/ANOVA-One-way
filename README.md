@@ -51,6 +51,11 @@ res.aov <- aov(weight ~ gender, data = my_data)
 #Summary of the analysis
 summary(res.aov)
 
+# 3.1 effect size
+##install.packages("lsr")
+library(lsr)
+etaSquared(model1)                                
+
 
 # 4 Tukey
 > TukeyHSD(res.aov)
@@ -92,4 +97,33 @@ summary(glht(res.aov, linfct = mcp(group = "Tukey")))
 # 6.2
 pairwise.t.test(my_data$weight, my_data$gender,
                  p.adjust.method = "BH")
+
+
+
+# 7 #    ANOVA & planned Multiple comparisons  （一起搞，ANOVA和planned）
+#Tip: our dataset is unbalanced, since the analysis of variance is performed in R by fitting a linear model 
+#created from indicator variables for the levels of the factor.  
+#so this validity of this approach does not depend on balance in the data. 
+
+#look at the levels of our factor
+levels(Simulated_Data$picture)
+#tell R which groups to compare
+c1 <- c(0, 1, -1) # sexy vs. young
+c2 <- c(-1, 1, 0) # sexy vs. elderly
+c3 <- c(-1, 0, 1) # New: young vs. elderly
+
+#combined the above 3 lines into a matrix
+mat <- cbind(c1,c2,c3)
+
+#tell R that the matrix gives the contrasts you want
+contrasts(Simulated_Data$picture) <- mat
+
+#Compute the analysis of variance
+model1 <- aov(Acceptance ~ picture, data = Simulated_Data)
+
+#Summary of the analysis
+summary(model1)
+
+#Summary of the multiple comparisons
+summary.aov(model1, split=list(picture=list("sexy vs. young"=1, "sexy vs. elderly" = 2, "New: young vs. elderly"=3))) 
 
