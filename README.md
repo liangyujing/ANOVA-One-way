@@ -15,6 +15,14 @@ group_by(antisemitism_07, suffering) %>%
     mean = mean(prejudice, na.rm = TRUE),
     sd = sd(prejudice, na.rm = TRUE)
   )
+# 1. # get descriptives
+library(psych)
+## Warning: package 'psych' was built under R version 3.2.2
+describeBy(data$score, data$animal, mat=TRUE)
+
+
+
+
 
 # 2  图
 # 2.1 ggboxplot
@@ -33,6 +41,11 @@ ggline(antisemitism_07, x = "suffering", y = "prejudice",
 
 
 # 3   ANOVA
+#Tip: our dataset is unbalanced, since the analysis of variance is performed in R by fitting a linear model 
+#created from indicator variables for the levels of the factor.  
+#so this validity of this approach does not depend on balance in the data. 
+
+
 #Compute the analysis of variance
 res.aov <- aov(weight ~ gender, data = my_data)
 #Summary of the analysis
